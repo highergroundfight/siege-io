@@ -127,64 +127,7 @@ node tools/cdp-test.mjs <file-index.html 的绝对 URL> shots
 
 ---
 
-## 部署成网页版（GitHub Pages）
 
-`index.html` 是完整的单文件游戏，放到任意静态托管都能直接运行。GitHub Pages 免费、够用：
-
-### 方式 A：网页上传（不装 Git，最快）
-
-1. 登录 GitHub → 右上角 `+` → **New repository**。
-2. Repository name 填 `siege-io`（建议英文）；选 **Public**；创建时**不要勾选** Add a README / .gitignore / license；点 **Create repository**。
-3. 在新仓库页点 **uploading an existing file**，把 `index.html` 拖进去（想公开源码就把 `README.md`、`src/`、`tests/`、`tools/`、`screenshots/` 一起拖；文件夹可以直接拖拽上传），点 **Commit changes**。
-4. 进入仓库 **Settings → Pages → Build and deployment**：
-   - Source 选 **Deploy from a branch**
-   - Branch 选 `main`，目录选 `/ (root)`，点 **Save**
-5. 等 1–2 分钟，访问 **`https://<你的用户名>.github.io/<仓库名>/`**。
-
-> 免费账号的 GitHub Pages 只能部署 **Public** 仓库；Private 仓库需要 GitHub Pro / Team / Enterprise。
-
-### 方式 B：Git 命令行（推荐，后续更新方便）
-
-本机已装 Git（2.46）。在 `围城大作战` 目录打开 PowerShell：
-
-```powershell
-# 首次使用 Git 需要配置身份（换成你自己的）
-git config --global user.name "你的名字"
-git config --global user.email "你的邮箱"
-
-git init -b main
-git add .
-git commit -m "feat: 围城大作战"
-git remote add origin https://github.com/<你的用户名>/<仓库名>.git
-git push -u origin main
-```
-
-首次 `push` 会弹 GitHub 登录窗口，用浏览器授权即可；也可以在 GitHub → Settings → Developer settings 生成 Personal Access Token，用它当密码。
-
-推送成功后，按「方式 A」第 4 步开启 Pages。以后每次更新：
-
-```powershell
-git add .
-git commit -m "update"
-git push
-```
-
-Pages 会在 1–2 分钟内自动重新构建。
-
-### 常见问题
-
-- **404**：确认 Settings → Pages 已经 Save、分支和目录正确，并等 1–2 分钟；访问地址末尾要有 `/`。
-- **仓库名建议用英文**，否则 Pages 网址里会出现 `%E5%9B%B4...` 这种编码，虽然能用但不好看。
-- **push 被拒绝**：如果创建仓库时勾了 README，先 `git pull --rebase origin main`，再 `git push -u origin main`。
-- **打开还是旧版本**：按 `Ctrl + F5` 强制刷新（Pages 有缓存）。
-- **想让网址更短**：把仓库命名为 `<你的用户名>.github.io`，网址就是 `https://<你的用户名>.github.io/`。
-- 本项目没有任何外部依赖，不需要 npm / 构建步骤；`index.html` 本体即可运行。`src/` 只是源码，改完后跑 `node build.mjs` 重新生成 `index.html` 再提交。
-
-### 不想用 GitHub？
-
-Netlify Drop、Cloudflare Pages、Vercel 都支持把 `index.html` 直接拖进去，几十秒出网址。国内访问 GitHub Pages 有时不稳定，Cloudflare Pages 通常更快。
-
----
 
 ## 目录里已准备好的部署文件
 
